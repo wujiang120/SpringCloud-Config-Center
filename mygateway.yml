@@ -1,0 +1,29 @@
+server:
+  port: 8088
+
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+
+      routes:
+        - id: smsroutes
+          predicates:
+          - Path=/gateway/**
+          uri: lb://SMS
+          filters:
+          - StripPrefix=1
+
+  application:
+    name: mygateway
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7900/eureka/
+    registry-fetch-interval-seconds: 10
+    enabled: true
+  instance:
+    lease-renewal-interval-in-seconds: 10
